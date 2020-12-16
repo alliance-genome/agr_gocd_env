@@ -13,10 +13,10 @@ endif
 all:
 	docker build -t ${REG}/agr_gocd_env .
 
-push:
+push: registry-docker-login
 	docker push ${REG}/agr_gocd_env
 
-pull:
+pull: registry-docker-login
 	docker pull ${REG}/agr_gocd_env
 
 bash:
