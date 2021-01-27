@@ -6,5 +6,3 @@ RUN apt-get update -y
 RUN apt-get install -y docker.io
 
 ADD docker-chmod.conf /etc/init
-
-USER go
