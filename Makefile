@@ -1,11 +1,23 @@
+REG := 100225593120.dkr.ecr.us-east-1.amazonaws.com
+
+registry-docker-login:
+ifneq ($(shell echo ${REG} | egrep "ecr\..+\.amazonaws\.com"),)
+	@$(eval DOCKER_LOGIN_CMD=aws)
+ifneq (${AWS_PROFILE},)
+	@$(eval DOCKER_LOGIN_CMD=${DOCKER_LOGIN_CMD} --profile ${AWS_PROFILE})
+endif
+	@$(eval DOCKER_LOGIN_CMD=${DOCKER_LOGIN_CMD} ecr get-login-password | docker login -u AWS --password-stdin https://${REG})
+	${DOCKER_LOGIN_CMD}
+endif
+
 all:
-	docker build -t agrdocker/agr_gocd_env .
+	docker build -t ${REG}/agr_gocd_env .
 
-push:
-	docker push agrdocker/agr_gocd_env
+push: registry-docker-login
+	docker push ${REG}/agr_gocd_env
 
-pull:
-	docker pull agrdocker/agr_gocd_env
+pull: registry-docker-login
+	docker pull ${REG}/agr_gocd_env
 
 bash:
-	docker run -t -i agrdocker/agr_gocd_env bash
+	docker run -t -i ${REG}/agr_gocd_env bash
