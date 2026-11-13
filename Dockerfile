@@ -1,4 +1,4 @@
-FROM gocd/gocd-agent-ubuntu-16.04:v20.10.0
+FROM gocd/gocd-agent-ubuntu-22.04:v26.1.0
 
 USER root
 
